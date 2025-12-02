@@ -1,0 +1,52 @@
+@startuml
+
+entity "customers" as customers {
+  * id : int <<PK>>
+  --
+  name : varchar
+  email : varchar <<UNIQUE>>
+}
+
+entity "employees" as employees {
+  * id : int <<PK>>
+  --
+  name : varchar
+  position : varchar
+}
+
+entity "categories" as categories {
+  * id : int <<PK>>
+  --
+  name : varchar <<UNIQUE>>
+}
+
+entity "products" as products {
+  * id : int <<PK>>
+  --
+  name : varchar
+  price : double
+  category_id : int <<FK>>
+}
+
+entity "orders" as orders {
+  * id : int <<PK>>
+  --
+  order_date : timestamp
+  customer_id : int <<FK>>
+  employee_id : int <<FK>>
+}
+
+entity "order_items" as order_items {
+  * order_id : int <<FK>>
+  * product_id : int <<FK>>
+  --
+  quantity : int
+}
+
+products::category_id --> categories::id
+orders::customer_id --> customers::id
+orders::employee_id --> employees::id
+order_items::order_id --> orders::id
+order_items::product_id --> products::id
+
+@enduml
